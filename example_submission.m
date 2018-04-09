@@ -8,7 +8,7 @@ clear all
 [data_tr, data_te] = get_file_info;
 
 % STEP 2: For each of the training subjects, let's build a model.
-for i = 1:10%length(data_tr)
+for i = 1:length(data_tr)
 
 	try
 	display('--------------------------------------------------')
@@ -43,7 +43,7 @@ for i = 1:10%length(data_tr)
 		ind = ind + 1;
 	end
 
-	% Set the -1 regions as 0
+	% Set the -1 regions as 1
 	toss = find(Y_tr == -1);;
 	Y_tr(toss) =1;
 
@@ -83,7 +83,7 @@ for i = 1:10%length(data_tr)
 	%fclose(fileID);
 
         catch
-                display('Skipping subject without arousals...')
+                display('Unable to process this subject...')
         end
 
 end
@@ -93,8 +93,8 @@ files = dir();
 files = {files.name};
 models = find(contains(files,'_model'))
 
-%Apply the models to the testing set
-for i = 1:10%length(data_te)
+%STEP 3: Apply the models to the testing set
+for i = 1:length(data_te)
 
         try
         display('--------------------------------------------------')
@@ -152,11 +152,11 @@ for i = 1:10%length(data_te)
         %Save the predictions for submission to the challenge
         display(['Saving predictions'])
         fileID = fopen([sid '.vec'],'w');
-        fprintf(fileID,'%f\n',avg_pred);
+        fprintf(fileID,'%.3f\n',avg_pred);
         fclose(fileID);
 
         catch
-                display('Skipping subject without arousals...')
+                display('Unable to process this subject...')
         end
 
 end
