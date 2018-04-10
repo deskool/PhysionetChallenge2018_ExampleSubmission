@@ -83,7 +83,7 @@ for i = 1:length(data_tr)
 
         if length(unique(arousals_valid)) == 1
                 display('No arousals detected, skipping subject')
-                break;
+                continue;
         end
 
 	%Evaluate performance on this subject
