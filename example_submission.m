@@ -21,7 +21,6 @@ clear all
 % STEP 2: For each of the training subjects, let's build a model.
 for i = 1:length(data_tr)
 
-	try
 	display('--------------------------------------------------')
 	X_tr = [];
 	Y_tr = [];
@@ -33,6 +32,11 @@ for i = 1:length(data_tr)
 
 	arousal = load(data_tr(i).arousal_location);
 	arousal = arousal.data.arousals;
+	
+        if length(unique(arousal)) == 1
+                display('No arousals detected, skipping subject')
+                break;
+        end
 	
 	fs = str2num(data_tr(i).fs);
 	n_samples = str2num(data_tr(i).n_samples);
@@ -93,10 +97,6 @@ for i = 1:length(data_tr)
 	%fprintf(fileID,'%f\n',pred);
 	%fclose(fileID);
 
-        catch
-                display('Unable to process this subject...')
-        end
-
 end
 
 %Collect all the models that were trained
@@ -107,7 +107,6 @@ models = find(contains(files,'_model'))
 %STEP 3: Apply the models to the testing set
 for i = 1:length(data_te)
 
-        try
         display('--------------------------------------------------')
         X_te = [];
         display(['Working on Test Subject ' num2str(i) '/' num2str(length(data_te))])
@@ -165,10 +164,6 @@ for i = 1:length(data_te)
         fileID = fopen([sid '.vec'],'w');
         fprintf(fileID,'%.3f\n',avg_pred);
         fclose(fileID);
-
-        catch
-                display('Unable to process this subject...')
-        end
 
 end
 
