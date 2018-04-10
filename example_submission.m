@@ -58,7 +58,7 @@ files = dir(); files = {files.name};
 models = find(contains(files,'_model'))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% STEP 2: Apply the models to the testing set, and check performance
+% STEP 2: Apply the models to the training set, and check performance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:length(data_tr)
 
