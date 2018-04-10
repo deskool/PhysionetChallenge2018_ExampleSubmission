@@ -33,11 +33,6 @@ for i = 1:length(data_tr)
 	arousal = load(data_tr(i).arousal_location);
 	arousal = arousal.data.arousals;
 	
-        if length(unique(arousal)) == 1
-                display('No arousals detected, skipping subject')
-                break;
-        end
-	
 	fs = str2num(data_tr(i).fs);
 	n_samples = str2num(data_tr(i).n_samples);
 	sid = data_tr(i).subject_id;
@@ -85,6 +80,11 @@ for i = 1:length(data_tr)
 	valid = find(arousal ~= -1);
         arousals_valid = arousal(valid);
 	pred_valid = pred(valid);
+
+        if length(unique(arousals_valid)) == 1
+                display('No arousals detected, skipping subject')
+                break;
+        end
 
 	%Evaluate performance on this subject
 	[~,~,~,AUC(i)] = perfcurve(arousals_valid,pred_valid,1);
